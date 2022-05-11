@@ -45,16 +45,15 @@ def callback(request):
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text='收到你的貼圖囉！\n\n請輸入哈囉或點擊按鈕尋找附近餐廳',quick_reply=QuickReply(items=[QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉")),QuickReplyButton(action=LocationAction(label="傳送位置"))])))
                 elif event.message.type=='location':
                     address = event.message.address
-                    line_bot_api.reply_message(event.reply_token,getnearby(address))
-                    line_bot_api.reply_message(event.reply_token,pick())
-                    if event.message.text=='隨便吃':
-                            line_bot_api.reply_message(event.reply_token,randomget(address))
-                            line_bot_api.reply_message(event.reply_token,aother())
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text='若要隨機選擇請點擊按鈕'+getnearby(address),quick_reply=QuickReply(items=[QuickReplyButton(action=PostbackAction(label="隨便吃", data="隨便吃"))])))
             elif isinstance(event, PostbackEvent):  # 如果有回傳值事件
                 if event.postback.data == "哈囉":
                     line_bot_api.reply_message(event.reply_token,AreaMessage().content())
+                
                 elif event.postback.data == "新的":
-                    line_bot_api.reply_message(event.reply_token,randomget(address))
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text='再挑一個'+aother()+randomget(address)))
+                elif event.postback.data == "隨便吃":
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text=randomget(address)+aother(),quick_reply=QuickReply(items=[QuickReplyButton(PostbackAction(label="離開", data="離開"))])))
                 elif event.postback.data[0:1] == "A":
                     line_bot_api.reply_message(   # 回復「選擇美食類別」按鈕樣板訊息
                         event.reply_token,
