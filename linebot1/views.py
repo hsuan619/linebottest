@@ -46,7 +46,7 @@ def callback(request):
                 elif event.message.type=='location':
                     address = event.message.address
                     line_bot_api.reply_message(event.reply_token,getnearby())
-                    line_bot_api.reply_message(event.reply_token,aother())
+                    line_bot_api.reply_message(event.reply_token,pick())
                     if event.message.text=='隨便吃':
                             line_bot_api.reply_message(event.reply_token,randomget(address))
                             line_bot_api.reply_message(event.reply_token,aother())
