@@ -1,7 +1,3 @@
-from email import message
-from itertools import count
-from pydoc import text
-from typing import Text
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt
@@ -10,11 +6,13 @@ from django.conf import settings
 from linebot import LineBotApi, WebhookParser
 from linebot.exceptions import InvalidSignatureError, LineBotApiError
 from linebot.models import *
-from .adress import *
 from .scraper import IFoodie
 from .messages import *
 from line import settings
-
+#git add .
+#git commit -m "your_message"
+#heroku git:remote -a foodieline
+#git push heroku master
 
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 parser = WebhookParser(settings.LINE_CHANNEL_SECRET)
@@ -42,14 +40,15 @@ def callback(request):
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text="無法處理圖片訊息\n\n請輸入哈囉或點擊按鈕尋找附近餐廳",quick_reply=QuickReply(items=[QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉"))])))
                 elif event.message.type=='location':
                     address = event.message.address
-                    get_latitude_longtitude(address)
-                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text="點擊按鈕",quick_reply=QuickReply(items=[QuickReplyButton(action=PostbackAction(label="關鍵字", data="關鍵字"))])))
+                    line_bot_api.reply_message(event.reply_token,randomget(address))
                 elif event.message.type=='video':
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text="無法處理影片訊息\n\n請輸入哈囉或點擊按鈕尋找附近餐廳",quick_reply=QuickReply(items=[QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉"))])))
                 elif event.message.type=='sticker':
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text='收到你的貼圖囉！\n\n請輸入哈囉或點擊按鈕尋找附近餐廳',quick_reply=QuickReply(items=[QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉"))])))
                 elif event.message.text=='哈囉':
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text='請輸入哈囉或點擊按鈕',quick_reply=QuickReply(items=[QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉")),QuickReplyButton(action=LocationAction(label="傳送位置"))])))
+                elif event.message.text=='隨便吃':
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text="點擊按鈕",quick_reply=QuickReply(items=[QuickReplyButton(action=LocationAction(label="傳送位置"))])))
             elif isinstance(event, PostbackEvent):  # 如果有回傳值事件
                 if event.postback.data == "哈囉":
                     line_bot_api.reply_message(event.reply_token,AreaMessage().content())
@@ -59,11 +58,8 @@ def callback(request):
                         Category2Message(event.postback.data[2:]).content() #回復類別
                     )
                 elif event.postback.data[0:1] == "D":  #location
-                    result2 = event.postback.data[2:].split('&')
-                    line_bot_api.reply_message(   # 回復「選擇美食類別」按鈕樣板訊息
-                        event.reply_token,
-                        text=find(result2[0]),quick_reply=QuickReply(items=[QuickReplyButton(action=PostbackAction(label="離開", data="離開"))])
-                    )
+                    #result2 = event.postback.data[2:].split('&')
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text='結束這次查詢，\n請再次輸入 哈囉\n或點擊按鈕尋找附近餐廳',quick_reply=QuickReply(items=[QuickReplyButton(action=LocationAction(label="傳送我的位置"))])))
                 elif event.postback.data[0:1] == "A":
                     line_bot_api.reply_message(   # 回復「選擇美食類別」按鈕樣板訊息
                         event.reply_token,

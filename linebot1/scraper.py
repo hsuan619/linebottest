@@ -1,6 +1,11 @@
 from bs4 import BeautifulSoup
 from abc import ABC, abstractmethod
 import requests
+import urllib.request
+import json
+import time
+import googlemaps
+
 
 
 # 美食抽象類別
@@ -50,4 +55,3 @@ class IFoodie(Food):
             content += f"{title}  ⭐{stars}顆星\n\n🚗  {address}\n⏱  {opening}\n\n更多資訊：https://ifoodie.tw{url}\n\n"
  
         return content
-    
