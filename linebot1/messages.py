@@ -523,7 +523,7 @@ def randomget(address):
         )
     return buttons_template_message
 
-def getnearby():
+def getnearby(address):
     address = urllib.request.quote(address)
     url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + '&key=' + GOOGLE_API_KEY
     
