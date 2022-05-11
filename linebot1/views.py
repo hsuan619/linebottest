@@ -38,21 +38,18 @@ def callback(request):
             if isinstance(event, MessageEvent):  # 如果有訊息事件
 
                 if event.message.type=='image':
-                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text="無法處理圖片訊息\n\n請輸入哈囉或點擊按鈕尋找附近餐廳",quick_reply=QuickReply(items=[QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉"))])))
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text="無法處理圖片訊息\n\n請輸入哈囉或點擊按鈕尋找附近餐廳",quick_reply=QuickReply(items=[QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉")),QuickReplyButton(action=LocationAction(label="傳送位置"))])))
                 elif event.message.type=='video':
-                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text="無法處理影片訊息\n\n請輸入哈囉或點擊按鈕尋找附近餐廳",quick_reply=QuickReply(items=[QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉"))])))
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text="無法處理影片訊息\n\n請輸入哈囉或點擊按鈕尋找附近餐廳",quick_reply=QuickReply(items=[QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉")),QuickReplyButton(action=LocationAction(label="傳送位置"))])))
                 elif event.message.type=='sticker':
-                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text='收到你的貼圖囉！\n\n請輸入哈囉或點擊按鈕尋找附近餐廳',quick_reply=QuickReply(items=[QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉"))])))
-                elif event.message.text=='哈囉':
-                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text='點擊按鈕',quick_reply=QuickReply(items=[QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉")),QuickReplyButton(action=LocationAction(label="傳送位置"))])))
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text='收到你的貼圖囉！\n\n請輸入哈囉或點擊按鈕尋找附近餐廳',quick_reply=QuickReply(items=[QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉")),QuickReplyButton(action=LocationAction(label="傳送位置"))])))
                 elif event.message.type=='location':
+                    address = event.message.address
                     line_bot_api.reply_message(event.reply_token,getnearby())
-                elif event.message.text=='隨便吃':
-                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text="點擊按鈕",quick_reply=QuickReply(items=[QuickReplyButton(action=LocationAction(label="傳送位置"))])))
-                    if event.message.type=='location':
-                        address = event.message.address
-                        line_bot_api.reply_message(event.reply_token,randomget(address))
-                        line_bot_api.reply_message(event.reply_token,aother())
+                    line_bot_api.reply_message(event.reply_token,aother())
+                    if event.message.text=='隨便吃':
+                            line_bot_api.reply_message(event.reply_token,randomget(address))
+                            line_bot_api.reply_message(event.reply_token,aother())
             elif isinstance(event, PostbackEvent):  # 如果有回傳值事件
                 if event.postback.data == "哈囉":
                     line_bot_api.reply_message(event.reply_token,AreaMessage().content())

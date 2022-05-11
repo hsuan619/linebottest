@@ -596,7 +596,7 @@ def aother():
             actions=[
                 PostbackTemplateAction(
                     label="是",
-                    data="結束"
+                    data="離開"
                 ),
                 PostbackTemplateAction(
                     label="否",
@@ -607,4 +607,22 @@ def aother():
     )
     return message
 
+def pick():
+    message = TemplateSendMessage(
+        alt_text='隨便吃',
+        template=ConfirmTemplate(
+            text="要幫你挑咩?",
+            actions=[
+                PostbackTemplateAction(
+                    label="是",
+                    data="離開"
+                ),
+                PostbackTemplateAction(
+                    label="否",
+                    data="新的"
+                )
+            ]
+        )
+    )
+    return message
 
