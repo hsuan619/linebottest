@@ -55,3 +55,32 @@ class IFoodie(Food):
             content += f"{title}  ⭐{stars}顆星\n\n🚗  {address}\n⏱  {opening}\n\n更多資訊：https://ifoodie.tw{url}\n\n"
  
         return content
+
+
+
+
+cities= ["臺北市","新北市","桃園市","臺中市","臺南市","高雄市","基隆市","新竹市","嘉義市","新竹縣",
+        "苗栗縣","彰化縣","南投縣","雲林縣","嘉義縣","屏東縣","宜蘭縣","花蓮縣",]
+gmaps = googlemaps.Client(key='AIzaSyBNJF0jfTo28cI4eFHXjn5DmbxVr8d9paM')
+ids = []
+for city in cities:
+    results = []
+    # Geocoding an address
+    geocode_result = gmaps.geocode(city)
+    loc = geocode_result[0]['geometry']['location']
+    query_result = gmaps.places_nearby(keyword="餐廳",location=loc, radius=500)
+    results.extend(query_result['results'])
+    while query_result.get('next_page_token'):
+        time.sleep(2)
+        query_result = gmaps.places_nearby(page_token=query_result['next_page_token'])
+        results.extend(query_result['results'])    
+    for place in results:
+        ids.append(place['place_id'])
+
+stores_info = []
+# 去除重複id
+ids = list(set(ids)) 
+for id in ids:
+    stores_info.append(gmaps.place(place_id=id, language='zh-TW')['result'])
+
+print(ids)

@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from turtle import pd
 
 from linebot.models import *
 
@@ -448,6 +449,8 @@ import json
 import urllib
 import time
 import random
+import googlemaps
+import pandas as pd
 
 GOOGLE_API_KEY = 'AIzaSyBNJF0jfTo28cI4eFHXjn5DmbxVr8d9paM'
 
@@ -496,7 +499,7 @@ def randomget(address):
     # 5. 組裝餐廳詳細資訊
     rating = "無" if restaurant.get("rating") is None else restaurant["rating"]
     address = "沒有資料" if restaurant.get("vicinity") is None else restaurant["vicinity"]
-    details = "南瓜評分：{}\n南瓜地址：{}".format(rating, address)
+    details = "評分：{}\n地址：{}".format(rating, address)
 
     # 6. 取得餐廳的 Google map 網址
     map_url = "https://www.google.com/maps/search/?api=1&query={lat},{long}&query_place_id={place_id}".format(
@@ -519,3 +522,89 @@ def randomget(address):
             )
         )
     return buttons_template_message
+
+def getnearby():
+    address = urllib.request.quote(address)
+    url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + '&key=' + GOOGLE_API_KEY
+    
+    while True:
+        res = requests.get(url)
+        js = json.loads(res.text)
+        if js["status"] != "OVER_QUERY_LIMIT":
+            time.sleep(1)
+            break
+    loc = js["results"][0]["geometry"]["location"]
+    gmaps = googlemaps.Client(key=GOOGLE_API_KEY)
+    query_result = gmaps.places_nearby(keyword="餐廳",location=loc, radius=500)
+    results = []
+    results.extend(query_result['results'])
+    while query_result.get('next_page_token'):
+        time.sleep(2)
+        query_result = gmaps.places_nearby(page_token=query_result['next_page_token'])
+        results.extend(query_result['results'])    
+    for place in results:
+        ids.append(place['place_id'])
+
+        stores_info = []
+        # 去除重複id
+        ids = list(set(ids)) 
+        for id in ids:
+            stores_info.append(gmaps.place(place_id=id, language='zh-TW')['result'])
+
+    names = pd.DataFrame.from_dict(stores_info['name'])
+    details = pd.DataFrame.from_dict(stores_info['formatted_address']+stores_info['opening_hours']+stores_info['rating'])
+    map_url = pd.DataFrame.from_dict(stores_info['url'])
+
+    buttons_template_message = TemplateSendMessage(
+            alt_text='最近餐廳',
+            template=ButtonsTemplate(
+                title=names,
+                text=details,
+                actions=[
+                    URITemplateAction(
+                        label='查看地圖',
+                        uri=map_url
+                    ),
+                    URITemplateAction(
+                        label='查看地圖',
+                        uri=map_url
+                    ),
+                    URITemplateAction(
+                        label='查看地圖',
+                        uri=map_url
+                    ),
+                    URITemplateAction(
+                        label='查看地圖',
+                        uri=map_url
+                    ),
+                    URITemplateAction(
+                        label='查看地圖',
+                        uri=map_url
+                    )
+                ]
+            )
+        )
+    return buttons_template_message
+
+
+
+def aother():
+    message = TemplateSendMessage(
+        alt_text='重新選擇',
+        template=ConfirmTemplate(
+            text="是否要再挑一間?",
+            actions=[
+                PostbackTemplateAction(
+                    label="是",
+                    data="結束"
+                ),
+                PostbackTemplateAction(
+                    label="否",
+                    data="新的"
+                )
+            ]
+        )
+    )
+    return message
+
+
