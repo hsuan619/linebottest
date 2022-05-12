@@ -132,7 +132,7 @@ def callback(request):
                     line_bot_api.reply_message(event.reply_token,buttons_template_message)
                 elif event.message.text=='哈囉':
                         line_bot_api.reply_message(event.reply_token,TextSendMessage(text='請點擊哈囉左轉愛食記\n或隨機挑選附近餐廳',quick_reply=QuickReply(items=[QuickReplyButton(action=LocationAction(label="隨便吃")),QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉")),QuickReplyButton(action=PostbackAction(label="雲科外送地圖", data="外送"))])))
-                elif event.message.text=='再一間':
+                elif event.message.text=='搜尋其他位置':
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text='點擊按鈕(載入需幾秒時間)',quick_reply=QuickReply(items=[QuickReplyButton(action=LocationAction(label="搜尋其他位置")),QuickReplyButton(action=PostbackAction(label="離開", data="離開")),QuickReplyButton(action=PostbackAction(label="雲科外送地圖", data="外送"))])))
                 elif event.message.text=='離開':
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text='結束這次查詢，\n請點擊哈囉左轉愛食記\n或隨機挑選附近餐廳',quick_reply=QuickReply(items=[QuickReplyButton(action=LocationAction(label="隨便吃")),QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉")),QuickReplyButton(action=PostbackAction(label="雲科外送地圖", data="外送"))])))
