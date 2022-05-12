@@ -45,11 +45,11 @@ def callback(request):
             if isinstance(event, MessageEvent):  # 如果有訊息事件
 
                 if event.message.type=='image':
-                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text="無法處理圖片訊息\n\n請點擊哈囉左轉愛食記\n或隨機挑選附近餐廳\n(載入需幾秒時間)",quick_reply=QuickReply(items=[QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉")),QuickReplyButton(action=PostbackAction(label="幫我挑", data="隨便吃"))])))
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text="無法處理圖片訊息\n\n請點擊哈囉左轉愛食記\n或隨機挑選附近餐廳\n(載入需幾秒時間)",quick_reply=QuickReply(items=[QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉")),QuickReplyButton(action=PostbackAction(label="幫我挑", data="隨便吃")),QuickReplyButton(action=PostbackAction(label="雲科外送地圖", data="外送"))])))
                 elif event.message.type=='video':
-                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text="無法處理影片訊息\n\n請點擊哈囉左轉愛食記\n或隨機挑選附近餐廳\n(載入需幾秒時間)",quick_reply=QuickReply(items=[QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉")),QuickReplyButton(action=PostbackAction(label="幫我挑", data="隨便吃"))])))
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text="無法處理影片訊息\n\n請點擊哈囉左轉愛食記\n或隨機挑選附近餐廳\n(載入需幾秒時間)",quick_reply=QuickReply(items=[QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉")),QuickReplyButton(action=PostbackAction(label="幫我挑", data="隨便吃")),QuickReplyButton(action=PostbackAction(label="雲科外送地圖", data="外送"))])))
                 elif event.message.type=='sticker':
-                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text='收到你的貼圖囉！\n\n請點擊哈囉左轉愛食記\n或隨機挑選附近餐廳\n(載入需幾秒時間)',quick_reply=QuickReply(items=[QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉")),QuickReplyButton(action=PostbackAction(label="幫我挑", data="隨便吃"))])))
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text='收到你的貼圖囉！\n\n請點擊哈囉左轉愛食記\n或隨機挑選附近餐廳\n(載入需幾秒時間)',quick_reply=QuickReply(items=[QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉")),QuickReplyButton(action=PostbackAction(label="幫我挑", data="隨便吃")),QuickReplyButton(action=PostbackAction(label="雲科外送地圖", data="外送"))])))
                 elif event.message.type=='location':
                     address = event.message.address
                     url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + '&key=' + GOOGLE_API_KEY
@@ -126,11 +126,11 @@ def callback(request):
                     #'嗨嗨！\n請點擊哈囉左轉愛食記\n或幫你隨機挑選附近餐廳\n(載入需幾秒時間)'
                     line_bot_api.reply_message(event.reply_token,buttons_template_message)
                 elif event.message.text=='哈囉':
-                        line_bot_api.reply_message(event.reply_token,TextSendMessage(text='請點擊哈囉左轉愛食記\n或隨機挑選附近餐廳\n可以輸入-再一間-重新挑選喔!',quick_reply=QuickReply(items=[QuickReplyButton(action=LocationAction(label="隨便吃")),QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉"))])))
+                        line_bot_api.reply_message(event.reply_token,TextSendMessage(text='請點擊哈囉左轉愛食記\n或隨機挑選附近餐廳\n可以輸入-再一間-重新挑選喔!',quick_reply=QuickReply(items=[QuickReplyButton(action=LocationAction(label="隨便吃")),QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉")),QuickReplyButton(action=PostbackAction(label="雲科外送地圖", data="外送"))])))
                 elif event.message.text=='再一間':
-                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text='點擊按鈕(載入需幾秒時間)',quick_reply=QuickReply(items=[QuickReplyButton(action=LocationAction(label="再一間")),QuickReplyButton(action=PostbackAction(label="離開", data="離開"))])))
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text='點擊按鈕(載入需幾秒時間)',quick_reply=QuickReply(items=[QuickReplyButton(action=LocationAction(label="再一間")),QuickReplyButton(action=PostbackAction(label="離開", data="離開")),QuickReplyButton(action=PostbackAction(label="雲科外送地圖", data="外送"))])))
                 elif event.message.text=='離開':
-                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text='結束這次查詢，\n請點擊哈囉左轉愛食記\n或隨機挑選附近餐廳',quick_reply=QuickReply(items=[QuickReplyButton(action=LocationAction(label="隨便吃")),QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉"))])))
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text='結束這次查詢，\n請點擊哈囉左轉愛食記\n或隨機挑選附近餐廳',quick_reply=QuickReply(items=[QuickReplyButton(action=LocationAction(label="隨便吃")),QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉")),QuickReplyButton(action=PostbackAction(label="雲科外送地圖", data="外送"))])))
             elif isinstance(event, PostbackEvent):  # 如果有回傳值事件 '若要隨機選擇請點擊按鈕'
                 if event.postback.data[0:1] == "A":
                     line_bot_api.reply_message(   # 回復「選擇美食類別」按鈕樣板訊息
@@ -156,10 +156,11 @@ def callback(request):
                         event.reply_token,TextSendMessage(text=food.scrape(),quick_reply=QuickReply(items=[QuickReplyButton(action=PostbackAction(label="離開", data="離開"))])))
                     # 爬取該地區正在營業，且符合所選擇的美食類別及消費價格的前五大最高人氣餐廳
                 elif event.postback.data == "離開":
-                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text='結束這次查詢，\n請點擊哈囉左轉愛食記\n或隨機挑選附近餐廳',quick_reply=QuickReply(items=[QuickReplyButton(action=PostbackAction(label="幫我挑", data="再一間")),QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉"))])))
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text='結束這次查詢，\n請點擊哈囉左轉愛食記\n或隨機挑選附近餐廳',quick_reply=QuickReply(items=[QuickReplyButton(action=PostbackAction(label="幫我挑", data="再一間")),QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉")),QuickReplyButton(action=PostbackAction(label="雲科外送地圖", data="外送"))])))
                 elif event.postback.data == "哈囉":
                     line_bot_api.reply_message(event.reply_token,AreaMessage().content())
-                
+                elif event.postback.data == "外送":
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text='https://hsuan619.github.io/map/mid'))
         return HttpResponse()
     else:
         return HttpResponseBadRequest()
