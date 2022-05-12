@@ -14,11 +14,10 @@ from line import settings
 
 import requests
 import json
-import urllib
+
 import time
 import random
-import googlemaps
-import pandas as pd
+
 
 
 
