@@ -165,7 +165,7 @@ def callback(request):
                 elif event.postback.data == "哈囉":
                     line_bot_api.reply_message(event.reply_token,AreaMessage().content())
                 elif event.postback.data == "外送":
-                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text='https://hsuan619.github.io/map/mid'))
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text='https://hsuan619.github.io/map/mid',quick_reply=QuickReply(items=[QuickReplyButton(action=LocationAction(label="幫我挑")),QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉"))])))
         return HttpResponse()
     else:
         return HttpResponseBadRequest()
