@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 from random import random
-from turtle import pd
 
 from linebot.models import *
 

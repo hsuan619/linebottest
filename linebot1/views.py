@@ -8,8 +8,8 @@ from django.conf import settings
 from linebot import LineBotApi, WebhookParser
 from linebot.exceptions import InvalidSignatureError, LineBotApiError
 from linebot.models import *
-from .scraper import IFoodie
-from .messages import *
+from scraper import IFoodie
+from messages import *
 from line import settings
 
 import requests
