@@ -112,12 +112,12 @@ def callback(request):
                                 text=details,
                                 actions=[
                                     URITemplateAction(
-                                        label='查看地圖',
+                                        label='查看店家',
                                         uri=map_url
                                     ),
                                     PostbackAction(
-                                        label='再一間',
-                                        text = '再一間',
+                                        label='搜尋其他位置',
+                                        text = '搜尋其他位置',
                                         data = '再一間'
                                     ),
                                     PostbackAction(
@@ -133,7 +133,7 @@ def callback(request):
                 elif event.message.text=='哈囉':
                         line_bot_api.reply_message(event.reply_token,TextSendMessage(text='請點擊哈囉左轉愛食記\n或隨機挑選附近餐廳',quick_reply=QuickReply(items=[QuickReplyButton(action=LocationAction(label="隨便吃")),QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉")),QuickReplyButton(action=PostbackAction(label="雲科外送地圖", data="外送"))])))
                 elif event.message.text=='再一間':
-                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text='點擊按鈕(載入需幾秒時間)',quick_reply=QuickReply(items=[QuickReplyButton(action=LocationAction(label="再一間")),QuickReplyButton(action=PostbackAction(label="離開", data="離開")),QuickReplyButton(action=PostbackAction(label="雲科外送地圖", data="外送"))])))
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text='點擊按鈕(載入需幾秒時間)',quick_reply=QuickReply(items=[QuickReplyButton(action=LocationAction(label="搜尋其他位置")),QuickReplyButton(action=PostbackAction(label="離開", data="離開")),QuickReplyButton(action=PostbackAction(label="雲科外送地圖", data="外送"))])))
                 elif event.message.text=='離開':
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text='結束這次查詢，\n請點擊哈囉左轉愛食記\n或隨機挑選附近餐廳',quick_reply=QuickReply(items=[QuickReplyButton(action=LocationAction(label="隨便吃")),QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉")),QuickReplyButton(action=PostbackAction(label="雲科外送地圖", data="外送"))])))
             elif isinstance(event, PostbackEvent):  # 如果有回傳值事件 '若要隨機選擇請點擊按鈕'
