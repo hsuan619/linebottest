@@ -119,6 +119,11 @@ def callback(request):
                                         label='再一間',
                                         text = '再一間',
                                         data = '再一間'
+                                    ),
+                                    PostbackAction(
+                                        label='離開',
+                                        text = '離開',
+                                        data = '離開'
                                     )
                                 ]
                             )
