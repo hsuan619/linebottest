@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from random import random
 from turtle import pd
 
 from linebot.models import *
@@ -439,10 +440,6 @@ class CategoryMessage(Message): # 如果回傳值為「選擇地區」回復「�
                             )
                         )
         return Carousel_templatecate
-
-
-
-
 
 
 
