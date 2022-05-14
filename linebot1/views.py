@@ -45,11 +45,11 @@ def callback(request):
             if isinstance(event, MessageEvent):  # 如果有訊息事件
 
                 if event.message.type=='image':
-                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text="無法處理圖片訊息\n\n請點擊哈囉左轉愛食記\n或隨機挑選附近餐廳\n(載入需幾秒時間)",quick_reply=QuickReply(items=[QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉")),QuickReplyButton(action=PostbackAction(label="幫我挑", data="隨便吃")),QuickReplyButton(action=PostbackAction(label="雲科外送地圖", data="外送"))])))
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text="無法處理圖片訊息"))
                 elif event.message.type=='video':
-                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text="無法處理影片訊息\n\n請點擊哈囉左轉愛食記\n或隨機挑選附近餐廳\n(載入需幾秒時間)",quick_reply=QuickReply(items=[QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉")),QuickReplyButton(action=PostbackAction(label="幫我挑", data="隨便吃")),QuickReplyButton(action=PostbackAction(label="雲科外送地圖", data="外送"))])))
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text="無法處理影片訊息"))
                 elif event.message.type=='sticker':
-                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text='收到你的貼圖囉！\n\n請點擊哈囉左轉愛食記\n或隨機挑選附近餐廳\n(載入需幾秒時間)',quick_reply=QuickReply(items=[QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉")),QuickReplyButton(action=PostbackAction(label="幫我挑", data="隨便吃")),QuickReplyButton(action=PostbackAction(label="雲科外送地圖", data="外送"))])))
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text='收到你的貼圖囉！'))
                 elif event.message.type=='location':
                     address = event.message.address
                     url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + '&key=' + GOOGLE_API_KEY
@@ -162,7 +162,7 @@ def callback(request):
                         event.reply_token,TextSendMessage(text=food.scrape(),quick_reply=QuickReply(items=[QuickReplyButton(action=PostbackAction(label="離開", data="離開"))])))
                     # 爬取該地區正在營業，且符合所選擇的美食類別及消費價格的前五大最高人氣餐廳
                 elif event.postback.data == "離開":
-                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text='結束這次查詢，\n請點擊哈囉左轉愛食記\n或隨機挑選附近餐廳',quick_reply=QuickReply(items=[QuickReplyButton(action=LocationAction(label="幫我挑")),QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉")),QuickReplyButton(action=PostbackAction(label="雲科外送地圖", data="外送"))])))
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text='結束這次查詢'))
                 elif event.postback.data == "哈囉":
                     line_bot_api.reply_message(event.reply_token,AreaMessage().content())
         return HttpResponse()
