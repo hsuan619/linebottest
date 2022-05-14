@@ -73,13 +73,16 @@ def callback(request):
                     above4=[]
                     for i in range(res_num):
                         try:
-                            if top20_restaurants[i]['rating'] > 3.9:
+                            if top20_restaurants[i]['rating'] > 3.4:
                                 #print('rate: ', top20_restaurants[i]['rating'])
                                 if top20_restaurants[i]['opening_hours']['open_now'] == True:
                                     above4.append(i)
                         except:
                             KeyError
                     # 3. 隨機選擇一間餐廳
+                    if len(above4)==0:
+                        line_bot_api.reply_message(event.reply_token,TextSendMessage(text="找不到店家，請重新選擇位置"))
+                    else:
                         restaurant = random.choice(top20_restaurants)
                     restaurant = top20_restaurants[random.choice(above4)]
                     # 4. 檢查餐廳有沒有照片，有的話會顯示
@@ -131,11 +134,9 @@ def callback(request):
                     #'嗨嗨！\n請點擊哈囉左轉愛食記\n或幫你隨機挑選附近餐廳\n(載入需幾秒時間)'
                     line_bot_api.reply_message(event.reply_token,buttons_template_message)
                 elif event.message.text=='哈囉':
-                        line_bot_api.reply_message(event.reply_token,TextSendMessage(text='請點擊哈囉左轉愛食記\n或隨機挑選附近餐廳',quick_reply=QuickReply(items=[QuickReplyButton(action=LocationAction(label="隨便吃")),QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉")),QuickReplyButton(action=PostbackAction(label="雲科外送地圖", data="外送"))])))
+                        line_bot_api.reply_message(event.reply_token,AreaMessage().content())
                 elif event.message.text=='搜尋其他位置':
-                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text='點擊按鈕(載入需幾秒時間)',quick_reply=QuickReply(items=[QuickReplyButton(action=LocationAction(label="搜尋其他位置")),QuickReplyButton(action=PostbackAction(label="離開", data="離開")),QuickReplyButton(action=PostbackAction(label="雲科外送地圖", data="外送"))])))
-                elif event.message.text=='離開':
-                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text='結束這次查詢，\n請點擊哈囉左轉愛食記\n或隨機挑選附近餐廳',quick_reply=QuickReply(items=[QuickReplyButton(action=LocationAction(label="隨便吃")),QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉")),QuickReplyButton(action=PostbackAction(label="雲科外送地圖", data="外送"))])))
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text='點擊按鈕(載入需幾秒時間)',quick_reply=QuickReply(items=[QuickReplyButton(action=LocationAction(label="搜尋其他位置")),QuickReplyButton(action=PostbackAction(label="離開", data="離開"))])))
             elif isinstance(event, PostbackEvent):  # 如果有回傳值事件 '若要隨機選擇請點擊按鈕'
                 if event.postback.data[0:1] == "A":
                     line_bot_api.reply_message(   # 回復「選擇美食類別」按鈕樣板訊息
@@ -164,8 +165,6 @@ def callback(request):
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text='結束這次查詢，\n請點擊哈囉左轉愛食記\n或隨機挑選附近餐廳',quick_reply=QuickReply(items=[QuickReplyButton(action=LocationAction(label="幫我挑")),QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉")),QuickReplyButton(action=PostbackAction(label="雲科外送地圖", data="外送"))])))
                 elif event.postback.data == "哈囉":
                     line_bot_api.reply_message(event.reply_token,AreaMessage().content())
-                elif event.postback.data == "外送":
-                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text='https://hsuan619.github.io/map/mid',quick_reply=QuickReply(items=[QuickReplyButton(action=LocationAction(label="幫我挑")),QuickReplyButton(action=PostbackAction(label="哈囉", data="哈囉"))])))
         return HttpResponse()
     else:
         return HttpResponseBadRequest()
