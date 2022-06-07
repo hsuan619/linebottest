@@ -158,8 +158,7 @@ def callback(request):
                         result[1],   #類別
                         result[2]   #price
                     )
-                    line_bot_api.reply_message(  # 回復訊息文字
-                        event.reply_token,TextSendMessage(text=food.scrape(),quick_reply=QuickReply(items=[QuickReplyButton(action=PostbackAction(label="離開", data="離開"))])))
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text=food.scrape(),quick_reply=QuickReply(items=[QuickReplyButton(action=PostbackAction(label="離開", data="離開"))])))
                     # 爬取該地區正在營業，且符合所選擇的美食類別及消費價格的前五大最高人氣餐廳
                 elif event.postback.data == "離開":
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text='結束這次查詢'))

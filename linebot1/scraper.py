@@ -33,26 +33,24 @@ class IFoodie(Food):
         soup = BeautifulSoup(response.content, "html.parser")
 
         cards = soup.find_all(
-            'div', {'class': 'jsx-558691085 restaurant-info'}, limit=6)
+            'div', {'class': 'jsx-2740740998 restaurant-info'}, limit=6)
  
         content = ""
         for card in cards:
  
             title = card.find(  # 餐廳名稱
-                "a", {"class": "jsx-558691085 title-text"}). getText()
+                "a", {"class": "jsx-2740740998 title-text"}).getText()
 
             stars = card.find(  # 餐廳評價
                 "div", {"class": "jsx-1207467136 text"}).getText()
             address = card.find(  # 餐廳地址
-                "div", {"class": "jsx-558691085 address-row"}).getText()
+                "div", {"class": "jsx-2740740998 address-row"}).getText()
 
             opening = card.find(
-                "div",{"class": "jsx-558691085 info"}).getText()
+                "div",{"class": "jsx-2740740998 info"}).getText()
             
             url = card.find(
-                "a",{"class":"jsx-558691085"}).get("href")
-            #將取得的餐廳名稱、評價及地址連結一起，並且指派給content變數
+                "a",{"class":"jsx-2740740998 title-text"}).get("href")
             content += f"{title}  ⭐{stars}顆星\n\n🚗  {address}\n⏱  {opening}\n\n更多資訊：https://ifoodie.tw{url}\n\n"
- 
         return content
 
