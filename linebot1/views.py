@@ -24,7 +24,7 @@ import random
 
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 parser = WebhookParser(settings.LINE_CHANNEL_SECRET)
-GOOGLE_API_KEY = 'AIzaSyBNJF0jfTo28cI4eFHXjn5DmbxVr8d9paM'
+GOOGLE_API_KEY = ''
 
 @csrf_exempt
 def callback(request):
